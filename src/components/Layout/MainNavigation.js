@@ -2,7 +2,13 @@ import { Link } from 'react-router-dom';
 
 import classes from './MainNavigation.module.css';
 
+import { Context } from '../../context/context';
+
+import { useContext } from 'react';
+
 const MainNavigation = () => {
+  const context = useContext(Context);
+
   return (
     <header className={classes.header}>
       <Link to='/'>
@@ -10,15 +16,20 @@ const MainNavigation = () => {
       </Link>
       <nav>
         <ul>
-          <li>
-            <Link to='/auth'>Login</Link>
-          </li>
-          <li>
-            <Link to='/profile'>Profile</Link>
-          </li>
-          <li>
-            <button>Logout</button>
-          </li>
+          {context.isAuth ? (
+            <>
+              <li>
+                <Link to='/profile'>Profile</Link>
+              </li>
+              <li>
+                <button onClick={() => context.logout()}>Logout</button>
+              </li>
+            </>
+          ) : (
+            <li>
+              <Link to='/auth'>Login</Link>
+            </li>
+          )}
         </ul>
       </nav>
     </header>
